@@ -9,5 +9,6 @@
 #include <time.h>
 
 extern void generate_keystream(char* key);
+extern void generate_random_keystream();
 
 #endif // RC4_H

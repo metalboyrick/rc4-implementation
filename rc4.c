@@ -56,7 +56,7 @@ void init() {
 */
 void generate_keystream(char* key){
 
-	for(int i = 0 ; i < KEY_LEN; i++) K[i] = key[i];
+	for(int i = 0 ; i < KEY_LEN; i++) K[i] = (uint8_t)key[i];
 	
 	init();
 
@@ -75,4 +75,17 @@ void generate_keystream(char* key){
 		printf("%02x ", out_key);
 
 	}
+}
+
+void generate_random_keystream(){
+	char random_key[KEY_LEN];
+
+	for (int i = 0; i < KEY_LEN; i++) random_key[i] = gen_alphanum();
+
+	printf("GENERATED KEY: ");
+	for (int i = 0; i < KEY_LEN; i++) printf("%02x ", (uint8_t)random_key[i]);
+
+	printf("\n=========================================================\n");
+	generate_keystream(random_key);
+
 }
