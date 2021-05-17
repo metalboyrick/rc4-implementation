@@ -8,6 +8,6 @@
 #include <stdbool.h>
 #include <time.h>
 
-extern void generate_keystream();
+extern void generate_keystream(char* key);
 
 #endif // RC4_H
