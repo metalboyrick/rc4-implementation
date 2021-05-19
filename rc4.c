@@ -57,7 +57,14 @@ void init() {
 void generate_keystream(char* key){
 
 	for(int i = 0 ; i < KEY_LEN; i++) K[i] = (uint8_t)key[i];
+
+	uint8_t out_key_arr[STREAM_LEN];
 	
+	struct timespec start, end;
+
+	// start timer 
+	clock_gettime(CLOCK_REALTIME, &start);
+
 	init();
 
 	int i = 0, j = 0;
@@ -72,9 +79,23 @@ void generate_keystream(char* key){
 		S[j] = temp;
 
 		uint8_t out_key = S[(S[i] + S[j]) % 256];
-		printf("%02x ", out_key);
-
+		out_key_arr[k] = out_key;
 	}
+
+
+
+	// stop timer
+	clock_gettime(CLOCK_REALTIME, &end);
+
+	double time_spent = (end.tv_sec - start.tv_sec) +
+                        (end.tv_nsec - start.tv_nsec) / 1000.0;
+	double speed = ( 16000 ) / (time_spent);
+
+	for(int n = 0 ; n < STREAM_LEN; n++)
+		printf("%02x ", out_key_arr[n]);
+
+	// print the results
+	printf("\nEncryption speed: %lf Megabits / second\n", speed);
 }
 
 void generate_random_keystream(){
@@ -86,6 +107,11 @@ void generate_random_keystream(){
 	for (int i = 0; i < KEY_LEN; i++) printf("%02x ", (uint8_t)random_key[i]);
 
 	printf("\n=========================================================\n");
+	
+
+	
 	generate_keystream(random_key);
+
+	
 
 }
